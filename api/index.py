@@ -2,7 +2,9 @@
 from http.server import BaseHTTPRequestHandler
 import sqlite3, os, random, html
 
-# Use a read-only SQLite URI so Vercel never tries to write.
+OWNER_NAME = "Kumar Anurag"
+OWNER_LINK = "https://kmranrg.com"
+
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "quotes.db")
 DB_URI = f"file:{DB_PATH}?mode=ro"
 
@@ -40,9 +42,12 @@ class handler(BaseHTTPRequestHandler):
         backdrop-filter:blur(6px);border-radius:24px;box-shadow:0 10px 40px rgba(0,0,0,.25)}}
   .quote{{font-size:2rem;line-height:1.3;margin:0 0 14px}}
   .author{{font-size:1.1rem;opacity:.9}}
-  .footer{{position:fixed;bottom:14px;left:0;right:0;text-align:center;font-size:.8rem;opacity:.75}}
+  .footer{{position:fixed;left:0;right:0;bottom:0;padding:10px 14px;
+           background:rgba(0,0,0,.35);backdrop-filter:blur(4px);
+           font-size:.85rem;letter-spacing:.2px}}
+  a{{color:#fff;text-underline-offset:2px}}
   button.refresh{{margin-top:22px;padding:10px 16px;border:0;border-radius:999px;
-                 background:rgba(255,255,255,.2);color:#fff;font-weight:600;cursor:pointer}}
+                 background:rgba(255,255,255,.22);color:#fff;font-weight:600;cursor:pointer}}
   button.refresh:hover{{background:rgba(255,255,255,.3)}}
 </style>
 </head>
@@ -52,7 +57,10 @@ class handler(BaseHTTPRequestHandler):
     <p class="author">&mdash; {html.escape(author)}</p>
     <form><button class="refresh" type="submit">New Quote ↻</button></form>
   </div>
-  <div class="footer">Built by KA</div>
+  <div class="footer">
+    Motivate Me • Built by
+    <a href="{html.escape(OWNER_LINK)}" target="_blank" rel="noopener">{html.escape(OWNER_NAME)}</a>
+  </div>
 </body>
 </html>"""
         self.send_response(200)
